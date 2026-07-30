@@ -1,6 +1,6 @@
 # font-checker
 
-Node CLI that scans a page for fonts, understands obfuscation, and can unwrap woff2 → `.otf` (sfnt).
+Node CLI that scans a page for fonts, understands obfuscation, and can unwrap woff2 → `.otf`.
 
 ## Setup
 
