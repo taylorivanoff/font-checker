@@ -1,0 +1,20 @@
+{
+  "name": "font-checker",
+  "version": "1.0.0",
+  "description": "Detect fonts on a webpage, handle common CDN/obfuscation patterns, optionally download and unwrap woff2 to OpenType/sfnt",
+  "type": "module",
+  "bin": {
+    "font-checker": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "check": "node src/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "fonteditor-core": "^2.6.2",
+    "wawoff2": "^2.0.1"
+  }
+}
