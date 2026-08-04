@@ -5,7 +5,8 @@ import {
   dialog,
   screen,
   shell,
-  nativeTheme
+  nativeTheme,
+  Notification
 } from 'electron';
 import updater from 'electron-updater';
 const { autoUpdater } = updater;
@@ -298,6 +299,15 @@ function setupAutoUpdater() {
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 
+  autoUpdater.on('update-available', (info) => {
+    if (!Notification.isSupported()) return;
+    new Notification({
+      title: APP_NAME,
+      body: `Update ${info.version} found. The app will update and restart.`,
+      icon: getIconPath(app.getAppPath())
+    }).show();
+  });
+
   autoUpdater.on('update-not-available', () => {
     manualUpdateCheck = false;
   });
@@ -417,6 +427,9 @@ function registerIpc() {
 }
 
 app.whenReady().then(() => {
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('io.github.taylorivanoff.font-checker');
+  }
   syncLoginItemArgs();
   createSplash();
   registerIpc();
