@@ -23,7 +23,7 @@ Useful for designers, developers, and anyone auditing or recovering web fonts fr
 
 ## Installation
 
-### Windows / Linux
+### Windows
 
 1. Download the latest installer from [Releases](https://github.com/taylorivanoff/font-checker/releases)
 2. Run the installer and follow the prompts
@@ -31,7 +31,7 @@ Useful for designers, developers, and anyone auditing or recovering web fonts fr
 ### macOS
 
 1. Download the `.dmg` from [Releases](https://github.com/taylorivanoff/font-checker/releases) and drag **Font Checker** to Applications
-2. macOS may say the app is “damaged” — that is Gatekeeper blocking an unsigned download, not a bad file. Clear quarantine, then open:
+2. macOS may say the app is “damaged” - that is Gatekeeper blocking an unsigned download, not a bad file. Clear quarantine, then open:
 
 ```bash
 xattr -cr "/Applications/Font Checker.app"
@@ -63,7 +63,7 @@ bun run release
 
 ### Releasing
 
-Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows, macOS, and Linux installers, uploads updater metadata, and creates a GitHub Release.
+Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows and macOS installers, uploads updater metadata, and creates a GitHub Release.
 
 Optional repo secrets for signed builds:
 
@@ -88,3 +88,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MIT
+

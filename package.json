@@ -4,7 +4,7 @@
   "author": {
     "name": "Taylor Ivanoff"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "https://github.com/taylorivanoff/font-checker",
   "type": "module",
   "main": "main/main.js",
@@ -56,14 +56,6 @@
     "publish": {
       "provider": "generic",
       "url": "https://github.com/taylorivanoff/font-checker/releases/latest/download"
-    },
-    "linux": {
-      "icon": "resources/icon.png",
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "category": "Utility"
     }
   },
   "engines": {
@@ -80,4 +72,3 @@
     "electron-builder": "^26.15.3"
   }
 }
-
