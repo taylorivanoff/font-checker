@@ -1,4 +1,4 @@
-# font-checker — Web Font Detector & WOFF2 to OTF Converter
+# font-checker - Web Font Detector & WOFF2 to OTF Converter
 
 Node.js CLI that **scans a webpage for fonts**, handles common obfuscation, and can **download and convert WOFF2 to OTF**. Useful for designers, developers, and anyone auditing or recovering web fonts from a site.
 
@@ -6,7 +6,7 @@ Node.js CLI that **scans a webpage for fonts**, handles common obfuscation, and 
 
 - Discover fonts used on any URL
 - Understand font obfuscation patterns
-- Download fonts and convert **woff2 → `.otf`**
+- Download fonts and convert **woff2 to `.otf`**
 - JSON output for scripting and pipelines
 
 ## Setup
