@@ -284,10 +284,6 @@ function sendToRenderer(channel, payload) {
   }
 }
 
-function showUpdateDialog(options) {
-  return dialog.showMessageBox({ noLink: true, ...options });
-}
-
 async function checkForUpdates(manual = false) {
   if (!app.isPackaged) return;
   manualUpdateCheck = manual;
@@ -306,28 +302,10 @@ function setupAutoUpdater() {
     manualUpdateCheck = false;
   });
 
-  autoUpdater.on('update-downloaded', (info) => {
-    const installNow = manualUpdateCheck;
+  autoUpdater.on('update-downloaded', () => {
     manualUpdateCheck = false;
-    if (installNow) {
-      isQuitting = true;
-      autoUpdater.quitAndInstall(true, true);
-      return;
-    }
-    showUpdateDialog({
-      type: 'info',
-      title: APP_NAME,
-      message: `Version ${info.version} is ready to install.`,
-      detail: 'Restart the app to apply the update.',
-      buttons: ['Restart now', 'Later'],
-      defaultId: 0,
-      cancelId: 1
-    }).then(({ response }) => {
-      if (response === 0) {
-        isQuitting = true;
-        autoUpdater.quitAndInstall(true, true);
-      }
-    });
+    isQuitting = true;
+    autoUpdater.quitAndInstall(true, true);
   });
 
   autoUpdater.on('error', () => {
