@@ -4,7 +4,7 @@
   "author": {
     "name": "Taylor Ivanoff"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "https://github.com/taylorivanoff/font-checker",
   "type": "module",
   "main": "main/main.js",
@@ -36,13 +36,16 @@
       "target": "nsis",
       "artifactName": "${name}-Setup-${version}.${ext}"
     },
+    "afterPack": "./scripts/after-pack.cjs",
     "mac": {
       "icon": "resources/icon.png",
       "target": [
         "dmg",
         "zip"
       ],
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
     },
     "nsis": {
       "oneClick": false,
@@ -77,3 +80,4 @@
     "electron-builder": "^26.15.3"
   }
 }
+
