@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' file: data:; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Font Checker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app" id="app">
+    <header class="titlebar">
+      <div class="titlebar-drag">
+        <h1 class="app-title">Font Checker</h1>
+      </div>
+      <div class="titlebar-actions">
+        <button type="button" class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path fill="currentColor"
+              d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.15 7.15 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.57.23-1.11.54-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.77 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.43.34.68.22l2.39-.96c.5.4 1.05.72 1.62.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.57-.22 1.12-.54 1.62-.94l2.39.96c.25.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <div class="toolbar">
+        <label class="field" style="flex: 1; min-width: 160px; margin: 0;">
+          <span class="hidden">URL</span>
+          <input type="url" id="field-url" placeholder="https://example.com/fonts/…" list="recent-urls" />
+          <datalist id="recent-urls"></datalist>
+        </label>
+        <label class="field" style="width: 140px; margin: 0;">
+          <span class="hidden">Mode</span>
+          <select id="field-mode">
+            <option value="discover">Discover</option>
+            <option value="download">Download</option>
+            <option value="convert">Convert to OTF</option>
+          </select>
+        </label>
+        <button type="button" class="btn primary" id="btn-scan">Scan</button>
+      </div>
+
+      <div class="toolbar">
+        <button type="button" class="btn ghost" id="btn-pick-out">Output…</button>
+        <button type="button" class="btn ghost" id="btn-open-out" disabled>Open folder</button>
+        <div class="spacer"></div>
+        <span class="meta" id="out-label"></span>
+      </div>
+
+      <div class="split">
+        <section class="panel">
+          <div class="panel-header">
+            <span id="results-label">Fonts</span>
+          </div>
+          <div class="list" id="results"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span>Details</span>
+            <button type="button" class="btn ghost" id="btn-reveal" disabled>Reveal file</button>
+          </div>
+          <pre class="preview" id="detail">Scan a page to discover fonts, including Fontdue / Next.js patterns.</pre>
+        </section>
+      </div>
+
+      <div class="warnings" id="warnings"></div>
+    </main>
+
+    <p class="hint" id="hint">Discover webfonts, download with browser-like headers, unwrap woff2 → OTF.</p>
+  </div>
+
+  <div class="overlay hidden" id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="sheet compact">
+      <header class="sheet-header">
+        <h2 id="settings-title">Settings</h2>
+        <button type="button" class="icon-btn" id="settings-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="16" height="16">
+            <path fill="currentColor"
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+          </svg>
+        </button>
+      </header>
+
+      <label class="toggle-row">
+        <span>Always on top</span>
+        <input type="checkbox" id="setting-aot" />
+      </label>
+      <label class="toggle-row">
+        <span>Start minimised</span>
+        <input type="checkbox" id="setting-minimised" />
+      </label>
+      <label class="field">
+        <span>Timeout (ms)</span>
+        <input type="number" id="setting-timeout" min="5000" max="120000" step="1000" />
+      </label>
+      <label class="field">
+        <span>Transparency</span>
+        <input type="range" id="setting-opacity" min="0" max="65" step="1" />
+        <output id="setting-opacity-out">6%</output>
+      </label>
+      <p class="meta" id="settings-meta"></p>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+
+</html>

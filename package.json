@@ -1,20 +1,79 @@
 {
   "name": "font-checker",
+  "description": "Desktop app and CLI to detect webpage fonts and convert WOFF2 to OTF",
+  "author": {
+    "name": "Taylor Ivanoff"
+  },
   "version": "1.0.0",
-  "description": "Detect fonts on a webpage, handle common CDN/obfuscation patterns, optionally download and unwrap woff2 to OpenType/sfnt",
+  "repository": "https://github.com/taylorivanoff/font-checker",
   "type": "module",
+  "main": "main/main.js",
   "bin": {
     "font-checker": "./src/cli.js"
   },
   "scripts": {
-    "start": "node src/cli.js",
-    "check": "node src/cli.js"
+    "start": "electron .",
+    "cli": "node src/cli.js",
+    "check": "node src/cli.js",
+    "release": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "io.github.taylorivanoff.font-checker",
+    "productName": "Font Checker",
+    "files": [
+      "main/**/*",
+      "preload/**/*",
+      "renderer/**/*",
+      "resources/**/*",
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "resources/icon.png",
+      "target": "nsis",
+      "artifactName": "${name}-Setup-${version}.${ext}"
+    },
+    "mac": {
+      "icon": "resources/icon.png",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "installer.nsh",
+      "deleteAppDataOnUninstall": true
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://github.com/taylorivanoff/font-checker/releases/latest/download"
+    },
+    "linux": {
+      "icon": "resources/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    }
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "electron-store": "^8.2.0",
+    "electron-updater": "^6.1.8",
     "fonteditor-core": "^2.6.2",
     "wawoff2": "^2.0.1"
+  },
+  "devDependencies": {
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3"
   }
 }

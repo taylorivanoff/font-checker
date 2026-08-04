@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Font Checker">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#243b4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <!-- Capital A -->
+  <path fill="#f5f5f7" d="M338 620h-78l118-352h86l118 352h-78l-24-78H362l-24 78zm52-140h104l-52-168-52 168z"/>
+  <!-- lowercase a -->
+  <path fill="#c5cdd6" d="M668 620c-78 0-128-48-128-118 0-66 48-112 130-112 28 0 54 6 74 18v-10c0-36-22-56-62-56-28 0-52 10-74 28l-28-48c30-26 68-40 112-40 78 0 124 40 124 118v160h-66v-28c-20 20-48 32-82 32zm10-60c40 0 70-26 70-64 0-36-28-58-68-58-42 0-70 24-70 62 0 38 28 60 68 60z"/>
+  <!-- baseline -->
+  <rect x="210" y="668" width="520" height="10" rx="5" fill="#4cc2ff" opacity="0.85"/>
+  <!-- magnifier -->
+  <g transform="translate(620 250)">
+    <circle cx="110" cy="110" r="92" fill="none" stroke="#4cc2ff" stroke-width="36"/>
+    <circle cx="110" cy="110" r="58" fill="#1c1c1e" opacity="0.35"/>
+    <rect x="168" y="188" width="36" height="150" rx="18" fill="#4cc2ff" transform="rotate(-40 186 263)"/>
+  </g>
+</svg>
