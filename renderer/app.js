@@ -102,15 +102,15 @@
     const lines = [
       fontLabel(font),
       '',
-      `CSS family: ${font.cssFamily || '—'}`,
-      `Weight / style: ${font.cssWeight ?? '—'} / ${font.cssStyle ?? '—'}`,
-      `Origins: ${(font.origins || []).join(', ') || '—'}`,
+      `CSS family: ${font.cssFamily || '-'}`,
+      `Weight / style: ${font.cssWeight ?? '-'} / ${font.cssStyle ?? '-'}`,
+      `Origins: ${(font.origins || []).join(', ') || '-'}`,
       `Scrubbed name table: ${font.nameScrubbed ? 'yes' : 'no'}`,
       font.glyphCount != null ? `Glyphs: ${font.glyphCount}` : null,
       font.cmapCount != null ? `Cmap: ${font.cmapCount}` : null,
       '',
       'Name table:',
-      font.nameTable ? JSON.stringify(font.nameTable, null, 2) : '—',
+      font.nameTable ? JSON.stringify(font.nameTable, null, 2) : '-',
       '',
       'Sources:'
     ].filter((line) => line != null);
