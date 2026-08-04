@@ -27,8 +27,8 @@ async function main() {
 function printHelp() {
   console.log(`Usage: node src/cli.js <url> [options]
 
-Detect fonts referenced by a page (HTML @font-face, linked CSS, Fontdue/RSC
-webfontSources payloads). Optionally download and unwrap woff2 → .otf (sfnt).
+Detect fonts referenced by a page (HTML @font-face, linked CSS, and
+embedded webfont metadata). Optionally download and unwrap woff2 → .otf (sfnt).
 
 Options:
   --download          Download discovered font files

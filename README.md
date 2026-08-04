@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/github/license/taylorivanoff/font-checker)](LICENSE)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/taylorivanoff)
 
-**Font Checker** is a free, cross-platform **Electron desktop app** (with a CLI) that scans a webpage for fonts, handles common CDN/obfuscation patterns (including Fontdue / Next.js RSC), and can download and unwrap **WOFF2 → OTF** with install-friendly name tables.
+**Font Checker** is a free, cross-platform **Electron desktop app** (with a CLI) that scans a webpage for fonts, follows common CDN and embedded webfont references, and can download and unwrap **WOFF2 → OTF** with install-friendly name tables.
 
 Useful for designers, developers, and anyone auditing or recovering web fonts from a site.
 
@@ -13,8 +13,7 @@ Useful for designers, developers, and anyone auditing or recovering web fonts fr
 
 - Discover fonts used on any URL
 - Modes: Discover · Download · Convert to OTF
-- Handles Fontdue payloads and Next.js flight-split URLs
-- Browser-like download headers to bypass simple hotlink gates
+- Follows linked CSS and embedded webfont references
 - Results list with name-table details and reveal-in-folder
 - Tray icon with show/hide, optional always-on-top, start minimised, updates
 - Window bounds persistence, splash screen, single-instance, auto-updater
@@ -79,7 +78,7 @@ Optional repo secrets for signed builds:
 
 ## Keywords
 
-web font detector, font scraper, woff2 to otf converter, website font finder, Electron font app, Fontdue font download
+web font detector, font scraper, woff2 to otf converter, website font finder, Electron font app
 
 ## Contributing
 

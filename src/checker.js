@@ -24,7 +24,7 @@ export async function checkSite(pageUrl, options = {}) {
 
   const flight = stitchNextFlight(page.text);
   if (flight.stitched) {
-    warnings.push(`stitched ${flight.chunkCount} Next.js flight chunks (split URLs)`);
+    warnings.push(`stitched ${flight.chunkCount} split page data chunks`);
   }
 
   let { fonts, stylesheets, warnings: extractWarnings } = extractFonts(
@@ -78,8 +78,8 @@ export async function checkSite(pageUrl, options = {}) {
           continue;
         }
         if (sniffed === 'html' || !sniffed) {
-          src.error = `not a font (sniffed=${sniffed || 'unknown'}; likely hotlink gate)`;
-          warnings.push(`Blocked or non-font response for ${src.url}`);
+          src.error = `not a font (sniffed=${sniffed || 'unknown'})`;
+          warnings.push(`Non-font response for ${src.url}`);
           continue;
         }
 

@@ -95,7 +95,7 @@
     const font = fonts[selectedIndex];
     btnReveal.disabled = !(font && firstFile(font));
     if (!font) {
-      detailEl.textContent = 'Scan a page to discover fonts, including Fontdue / Next.js patterns.';
+      detailEl.textContent = 'Scan a page to discover fonts.';
       return;
     }
 

@@ -3,8 +3,8 @@ const URL_IN_CSS_RE = /url\(\s*(['"]?)([^)'"]+)\1\s*\)/gi;
 const FONT_FACE_RE = /@font-face\s*\{([\s\S]*?)\}/gi;
 
 /**
- * Extract font references from HTML + inline/linked CSS text.
- * Handles Fontdue/RSC payloads where names are hashed in the URL.
+ * Extract font references from HTML + inline/linked CSS text,
+ * plus embedded webfont metadata when present.
  */
 export function extractFonts(html, pageUrl) {
   const byUrl = new Map();
@@ -12,7 +12,7 @@ export function extractFonts(html, pageUrl) {
 
   addFromFontFaceBlocks(html, pageUrl, byUrl);
   addFromBareFontUrls(html, pageUrl, byUrl);
-  addFromFontduePayloads(html, pageUrl, byUrl);
+  addFromEmbeddedWebfontPayloads(html, pageUrl, byUrl);
 
   // Linked stylesheets (resolved later by caller if needed)
   const stylesheets = [...html.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]*>/gi)]
@@ -104,13 +104,13 @@ function addFromBareFontUrls(text, baseUrl, byUrl) {
   const re = /https?:\/\/[^\s"'<>)\\]+?\.(?:woff2?|ttf|otf|eot)/gi;
   for (const m of text.matchAll(re)) {
     let url = m[0].replace(/\\+$/, '').replace(/\\"/g, '').replace(/&amp;/g, '&');
-    // Trim trailing escape artifacts from RSC JSON
+    // Trim trailing escape artifacts from JSON strings
     url = url.replace(/\\+$/, '');
     if (!/^https?:\/\//i.test(url)) continue;
     upsert(byUrl, { url, format: extFormat(url) }, { origin: 'url-scan' });
   }
 
-  // Root-relative / hashed Fontdue-style paths inside JSON
+  // Root-relative font paths inside quoted strings
   const rel = /["'](\/[^"']+\.(?:woff2?|ttf|otf))["']/gi;
   for (const m of text.matchAll(rel)) {
     const abs = resolveUrl(baseUrl, m[1]);
@@ -119,10 +119,10 @@ function addFromBareFontUrls(text, baseUrl, byUrl) {
 }
 
 /**
- * Fontdue / Next RSC: familyName + styleName + webfontSources
- * and cssFamily + name + webfontSources (escaped or plain JSON).
+ * Embedded webfont metadata: familyName/styleName or cssFamily/name
+ * paired with webfontSources (escaped or plain JSON).
  */
-function addFromFontduePayloads(text, baseUrl, byUrl) {
+function addFromEmbeddedWebfontPayloads(text, baseUrl, byUrl) {
   const patterns = [
     /(?:\\?")familyName(?:\\?")\s*:\s*(?:\\?")([^\\"]+)(?:\\?")\s*,\s*(?:\\?")styleName(?:\\?")\s*:\s*(?:\\?")([^\\"]+)(?:\\?")\s*,\s*(?:\\?")webfontSources(?:\\?")\s*:\s*(\[[^\]]+\])/g,
     /(?:\\?")cssFamily(?:\\?")\s*:\s*(?:\\?")([^\\"]+)(?:\\?")\s*,\s*(?:\\?")name(?:\\?")\s*:\s*(?:\\?")([^\\"]+)(?:\\?")\s*,\s*(?:\\?")webfontSources(?:\\?")\s*:\s*(\[[^\]]+\])/g,
@@ -145,7 +145,7 @@ function addFromFontduePayloads(text, baseUrl, byUrl) {
               label,
             },
             cssFamily: familyOrCss,
-            origin: 'fontdue-cssFamily',
+            origin: 'embedded-cssFamily',
           }
         : {
             pageIdentity: {
@@ -154,7 +154,7 @@ function addFromFontduePayloads(text, baseUrl, byUrl) {
               label,
             },
             cssFamily: label,
-            origin: 'fontdue-familyName',
+            origin: 'embedded-familyName',
           };
 
       for (const src of sources) upsert(byUrl, src, meta);
@@ -309,7 +309,7 @@ export function resolveUrl(base, maybeRelative) {
     if (!maybeRelative) return null;
     let u = maybeRelative.trim().replace(/^['"]|['"]$/g, '');
     if (u.startsWith('data:')) return null;
-    // Strip RSC trailing junk
+    // Strip trailing escape junk
     u = u.replace(/\\+$/, '');
     return new URL(u, base).href;
   } catch {
