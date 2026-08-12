@@ -26,6 +26,8 @@ function clamp(value, min, max, fallback) {
   return Math.min(max, Math.max(min, n));
 }
 
+export const prefsStore = store;
+
 export function getSettings() {
   const mode = String(store.get('mode', 'convert') || 'convert');
   return {

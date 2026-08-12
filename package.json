@@ -16,7 +16,10 @@
     "cli": "node src/cli.js",
     "check": "node src/cli.js",
     "bump": "node scripts/bump-version.js",
-    "release": "electron-builder --publish=never"
+    "release": "node scripts/minify-release.cjs && electron-builder --project .release-staging --publish=never",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "minify:release": "node scripts/minify-release.cjs"
   },
   "build": {
     "appId": "io.github.taylorivanoff.font-checker",
@@ -56,20 +59,26 @@
     "publish": {
       "provider": "generic",
       "url": "https://github.com/taylorivanoff/font-checker/releases/latest/download"
-    }
+    },
+    "compression": "maximum"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
     "electron-store": "^8.2.0",
-    "electron-updater": "^6.1.8",
-    "fonteditor-core": "^2.6.2",
+    "electron-tray-base": "github:taylorivanoff/electron-tray-base",
+    "electron-updater": "^6.8.9",
+    "fonteditor-core": "^2.6.3",
     "wawoff2": "^2.0.1"
   },
   "devDependencies": {
     "electron": "^43.2.0",
     "electron-builder": "^26.15.3",
-    "electron-reloader": "^1.2.3"
+    "electron-reloader": "^1.2.3",
+    "eslint": "^9.39.5",
+    "@eslint/js": "^9.39.5",
+    "globals": "^16.0.0",
+    "esbuild": "^0.25.0"
   }
 }

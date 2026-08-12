@@ -12,6 +12,9 @@
   const outLabel = document.getElementById('out-label');
   const toast = document.getElementById('toast');
   const settingsOverlay = document.getElementById('settings-overlay');
+  const statusBadge = document.getElementById('status-badge');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
 
   const btnScan = document.getElementById('btn-scan');
   const btnPickOut = document.getElementById('btn-pick-out');
@@ -188,12 +191,16 @@
     renderRecent();
   }
 
-  function setScanning(value) {
+  function setScanning(value, message = 'Scanning…') {
     scanning = value;
     btnScan.disabled = scanning;
     fieldUrl.disabled = scanning;
     fieldMode.disabled = scanning;
     btnScan.textContent = scanning ? 'Scanning…' : 'Scan';
+    statusBadge.textContent = scanning ? 'Scanning…' : 'Ready';
+    statusBadge.className = scanning ? 'status-badge run' : 'status-badge ok';
+    progressText.textContent = message;
+    progressBar.classList.toggle('hidden', !scanning);
   }
 
   async function runScan() {
@@ -202,7 +209,7 @@
       showToast('Enter a page URL', true);
       return;
     }
-    setScanning(true);
+    setScanning(true, `Scanning ${url}`);
     detailEl.textContent = 'Scanning…';
     const result = await api.scan({
       url,
@@ -213,6 +220,8 @@
     setScanning(false);
 
     if (!result.ok) {
+      statusBadge.textContent = 'Error';
+      statusBadge.className = 'status-badge error';
       showToast(result.error || 'Scan failed', true);
       detailEl.textContent = result.error || 'Scan failed.';
       return;
@@ -223,6 +232,8 @@
     lastOutDir = result.outDir || null;
     renderWarnings(result.warnings);
     renderResults();
+    statusBadge.textContent = `${fonts.length} font${fonts.length === 1 ? '' : 's'}`;
+    statusBadge.className = 'status-badge ok';
     showToast(`Found ${fonts.length} font${fonts.length === 1 ? '' : 's'}`);
   }
 
@@ -273,7 +284,6 @@
 
   api.getState().then((state) => {
     document.body.classList.add(`platform-${state.platform}`);
-    if (state.dark) document.body.classList.add('dark');
     applySettings(state.settings || {});
     settingsMeta.textContent = `Font Checker v${state.version}`;
     renderResults();
