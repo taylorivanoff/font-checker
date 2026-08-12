@@ -30,6 +30,16 @@ const APP_NAME = 'Font Checker';
 const START_MINIMIZED_ARG = '--start-minimised';
 const UPDATE_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
+function hasStartMinimisedArg(argv = process.argv) {
+  return argv.some(
+    (arg) => arg === START_MINIMIZED_ARG || arg.startsWith(`${START_MINIMIZED_ARG}=`)
+  );
+}
+
+function wasLaunchedMinimised(argv = process.argv) {
+  return hasStartMinimisedArg(argv);
+}
+
 let mainWindow = null;
 let splashWindow = null;
 let trayHandlers = null;
@@ -40,7 +50,10 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', () => showWindow());
+  app.on('second-instance', (_event, argv) => {
+    if (hasStartMinimisedArg(argv)) return;
+    showWindow();
+  });
 
   if (!app.isPackaged) {
     try {
@@ -212,8 +225,7 @@ function createWindow() {
   mainWindow.webContents.on('did-finish-load', () => {
     closeSplash();
     applyWindowOpacity(store.getSettings().opacity);
-    const startMinimised = process.argv.includes(START_MINIMIZED_ARG) || store.getSettings().startMinimised;
-    if (!startMinimised) {
+    if (!wasLaunchedMinimised()) {
       mainWindow.show();
       mainWindow.focus();
     }
@@ -277,6 +289,10 @@ function setStartMinimised(value) {
   syncLoginItemArgs();
   if (trayHandlers) updateTrayMenu(trayHandlers, APP_NAME);
   sendToRenderer('settings:changed', store.getSettings());
+  if (!value && mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) {
+    mainWindow.show();
+    mainWindow.focus();
+  }
 }
 
 function sendToRenderer(channel, payload) {
@@ -431,7 +447,7 @@ app.whenReady().then(() => {
     app.setAppUserModelId('io.github.taylorivanoff.font-checker');
   }
   syncLoginItemArgs();
-  createSplash();
+  if (!wasLaunchedMinimised()) createSplash();
   registerIpc();
   createWindow();
 
