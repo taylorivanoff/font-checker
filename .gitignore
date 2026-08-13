@@ -7,3 +7,4 @@ out-sample/
 notes/
 font-output/
 .release-staging/
+src-tauri/target/
