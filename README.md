@@ -1,23 +1,14 @@
-# Font Checker - Web Font Detector & WOFF2 to OTF
+# Font Checker - Web Font Tool & WOFF2 to OTF
 
 [![Release](https://img.shields.io/github/v/release/taylorivanoff/font-checker)](https://github.com/taylorivanoff/font-checker/releases)
 [![Downloads](https://img.shields.io/github/downloads/taylorivanoff/font-checker/total)](https://github.com/taylorivanoff/font-checker/releases)
 [![License](https://img.shields.io/github/license/taylorivanoff/font-checker)](LICENSE)
 
-**Font Checker** is a free, cross-platform **Tauri desktop app** (with a CLI) that scans a webpage for fonts, follows common CDN and embedded webfont references, and can download and unwrap **WOFF2 → OTF** with install-friendly name tables.
+Font Checker is an open-source, cross-platform desktop app that scans a webpage for fonts and can download and unwrap WOFF2 → OTF web fonts.
 
 Useful for designers, developers, and anyone auditing or recovering web fonts from a site.
 
-## Features
-
-- Discover fonts used on any URL
-- Modes: Discover · Download · Convert to OTF
-- Follows linked CSS and embedded webfont references
-- Results list with name-table details and reveal-in-folder
-- Tray icon with show/hide, optional always-on-top, start minimised, updates
-- Window bounds persistence, splash screen, single-instance, auto-updater
-- Close hides to tray (Quit from tray menu)
-- CLI retained for scripts (`bun run cli`)
+<img width="762" height="652" alt="{90D216AC-7466-4CF2-B0EB-ACAC182EF947}" src="https://github.com/user-attachments/assets/039d7848-c0cf-4c7c-af4e-7477be036f9b" />
 
 ## Installation
 
