@@ -11,6 +11,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - name: Materialize shared-styles
+        shell: bash
+        run: |
+          set -e
+          if [ ! -d renderer/vendor/shared-styles ]; then
+            echo "No vendored shared-styles found — skip"
+            exit 0
+          fi
+          mkdir -p ../shared-styles
+          cp renderer/vendor/shared-styles/*.css ../shared-styles/
+          cat > ../shared-styles/package.json <<'EOF'
+          {
+            "name": "@taylorivanoff/shared-styles",
+            "version": "0.0.0",
+            "files": ["tokens.css", "base.css", "window.css", "index.css"],
+            "exports": {
+              ".": "./index.css",
+              "./tokens.css": "./tokens.css",
+              "./base.css": "./base.css",
+              "./window.css": "./window.css",
+              "./index.css": "./index.css"
+            },
+            "style": "index.css"
+          }
+          EOF
       - run: bun install
       - run: bun update electron-tray-base
       - run: bun run lint
