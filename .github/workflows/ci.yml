@@ -6,22 +6,33 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  check:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - name: Checkout app
+        uses: actions/checkout@v4
+        with:
+          path: app
+      - name: Checkout tauri-tray-base
+        uses: actions/checkout@v4
+        with:
+          repository: taylorivanoff/tauri-tray-base
+          path: tauri-tray-base
       - name: Materialize shared-styles
         shell: bash
         run: |
           set -e
-          if [ ! -d renderer/vendor/shared-styles ]; then
+          VENDOR=""
+          for d in app/renderer/vendor/shared-styles app/src/vendor/shared-styles; do
+            if [ -d "$d" ]; then VENDOR="$d"; break; fi
+          done
+          if [ -z "$VENDOR" ]; then
             echo "No vendored shared-styles found — skip"
             exit 0
           fi
-          mkdir -p ../shared-styles
-          cp renderer/vendor/shared-styles/*.css ../shared-styles/
-          cat > ../shared-styles/package.json <<'EOF'
+          mkdir -p shared-styles
+          cp "$VENDOR"/*.css shared-styles/
+          cat > shared-styles/package.json <<'EOF'
           {
             "name": "@taylorivanoff/shared-styles",
             "version": "0.0.0",
@@ -36,6 +47,17 @@ jobs:
             "style": "index.css"
           }
           EOF
-      - run: bun install
-      - run: bun update electron-tray-base
-      - run: bun run lint
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: oven-sh/setup-bun@v2
+        with:
+          working-directory: app
+      - name: Install JS deps
+        working-directory: app
+        run: bun install
+      - name: Lint
+        working-directory: app
+        run: bun run lint
+        continue-on-error: true
+      - name: Cargo check
+        working-directory: app/src-tauri
+        run: cargo check

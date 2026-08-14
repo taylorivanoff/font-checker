@@ -284,6 +284,9 @@
 
   api.getState().then((state) => {
     document.body.classList.add(`platform-${state.platform}`);
+    if (globalThis.tauriTrayBridge?.bindWindowControls) {
+      globalThis.tauriTrayBridge.bindWindowControls(document);
+    }
     applySettings(state.settings || {});
     settingsMeta.textContent = `Font Checker v${state.version}`;
     renderResults();

@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/github/downloads/taylorivanoff/font-checker/total)](https://github.com/taylorivanoff/font-checker/releases)
 [![License](https://img.shields.io/github/license/taylorivanoff/font-checker)](LICENSE)
 
-**Font Checker** is a free, cross-platform **Electron desktop app** (with a CLI) that scans a webpage for fonts, follows common CDN and embedded webfont references, and can download and unwrap **WOFF2 → OTF** with install-friendly name tables.
+**Font Checker** is a free, cross-platform **Tauri desktop app** (with a CLI) that scans a webpage for fonts, follows common CDN and embedded webfont references, and can download and unwrap **WOFF2 → OTF** with install-friendly name tables.
 
 Useful for designers, developers, and anyone auditing or recovering web fonts from a site.
 
@@ -59,15 +59,6 @@ bun run cli https://example.com --json
 bun run release
 ```
 
-### Releasing
-
-Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows and macOS installers, uploads updater metadata, and creates a GitHub Release.
-
-Optional repo secrets for signed builds:
-
-- `WIN_CSC_LINK` / `WIN_CSC_KEY_PASSWORD` (Windows)
-- `CSC_LINK` / `CSC_KEY_PASSWORD` plus Apple notarization env vars (macOS Developer ID)
-
 ## Usage
 
 1. Paste a page URL
@@ -77,7 +68,7 @@ Optional repo secrets for signed builds:
 
 ## Keywords
 
-web font detector, font scraper, woff2 to otf converter, website font finder, Electron font app
+web font detector, font scraper, woff2 to otf converter, website font finder
 
 ## Contributing
 

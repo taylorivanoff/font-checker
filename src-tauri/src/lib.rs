@@ -43,6 +43,7 @@ pub fn run() {
 
             setup_tray(app.handle(), TraySetupOptions::default())?;
             apply_window_settings(app.handle());
+            tauri_tray_base::enable_frameless_chrome(app.handle());
             sync_autostart(app.handle());
 
             Ok(())
